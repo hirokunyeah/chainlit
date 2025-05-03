@@ -23,7 +23,7 @@ from pydantic import BaseModel
 from pydantic.dataclasses import dataclass
 
 InputWidgetType = Literal[
-    "switch", "slider", "select", "textinput", "tags", "numberinput"
+    "switch", "slider", "select", "textinput", "tags", "numberinput", "mcpserverinput"
 ]
 ToastType = Literal["info", "success", "warning", "error"]
 

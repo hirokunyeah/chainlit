@@ -180,3 +180,23 @@ class Tags(InputWidget):
             "tooltip": self.tooltip,
             "description": self.description,
         }
+
+@dataclass
+class McpServerInput(InputWidget):
+    """Useful to create a multi-input widget."""
+
+    type: InputWidgetType = "mcpserverinput"
+    initial: List[str] = Field(default_factory=list)
+    values: List[str] = Field(default_factory=list)
+
+    def to_dict(self) -> Dict[str, Any]:
+        print("MCPServerSetting to_dict called")
+        return {
+            "type": self.type,
+            "id": self.id,
+            "label": self.label,
+            "initial": self.initial,
+            "values": self.values,
+            "tooltip": self.tooltip,
+            "description": self.description,
+        }

@@ -5,6 +5,7 @@ import { SliderInput, SliderInputProps } from './SliderInput';
 import { SwitchInput, SwitchInputProps } from './SwitchInput';
 import { TagsInput, TagsInputProps } from './TagsInput';
 import { TextInput, TextInputProps } from './TextInput';
+import { McpServerInput, McpServerInputProps } from './McpServerInput';
 
 type TFormInputValue = string | number | boolean | string[] | undefined;
 
@@ -21,7 +22,9 @@ type TFormInput =
   | (Omit<TagsInputProps, 'value'> & IFormInput<'tags', string[]>)
   | (Omit<SelectInputProps, 'value'> & IFormInput<'select', string>)
   | (Omit<TextInputProps, 'value'> & IFormInput<'textinput', string>)
-  | (Omit<TextInputProps, 'value'> & IFormInput<'numberinput', number>);
+  | (Omit<TextInputProps, 'value'> & IFormInput<'numberinput', number>)
+  | (Omit<McpServerInputProps, 'value'> & IFormInput<'mcpserverinput', string[]>);
+    
 
 const FormInput = ({ element }: { element: TFormInput }): JSX.Element => {
   switch (element?.type) {
@@ -41,6 +44,21 @@ const FormInput = ({ element }: { element: TFormInput }): JSX.Element => {
           {...element}
           type="number"
           value={element.value?.toString() ?? '0'}
+        />
+      );
+    case 'mcpserverinput':
+      return (
+        <McpServerInput
+          {...element}
+          values={
+            Array.isArray(element.value)
+              ? { host: element.value[0], mcpPath: element.value[1], authPath: element.value[2], userId: element.value[3], password: element.value[4] }
+              : {}
+          } // Transform string[] to expected object
+          setField={(field, value, shouldValidate) => {
+            console.log(`Field updated: ${field}, Value: ${value}`); // デバッグログ
+            element.setField?.(field, value, shouldValidate);
+          }}
         />
       );
     default:

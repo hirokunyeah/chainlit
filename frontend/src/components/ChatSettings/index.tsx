@@ -40,6 +40,7 @@ export default function ChatSettingsModal() {
   const handleClose = () => setChatSettingsOpen(false);
 
   const handleConfirm = handleSubmit((data) => {
+    console.log('Form submitted with data:', data); // デバッグ用ログ
     const processedValues = mapValues(data, (x: TFormInputValue) =>
       x !== '' ? x : null
     );
@@ -55,6 +56,9 @@ export default function ChatSettingsModal() {
   const handleChange = () => {};
 
   const setFieldValue = (field: string, value: any) => {
+    console.log(
+      `Field updated: ${field}, Value: ${value}`
+    );
     setValue(field, value);
   };
 
@@ -72,17 +76,20 @@ export default function ChatSettingsModal() {
           </DialogTitle>
         </DialogHeader>
         <div className="flex flex-col flex-grow overflow-y-auto gap-6 p-1">
-          {chatSettingsInputs.map((input: any) => (
-            <FormInput
-              key={input.id}
-              element={{
-                ...input,
-                value: values[input.id],
-                onChange: handleChange,
-                setField: setFieldValue
-              }}
-            />
-          ))}
+          {chatSettingsInputs.map((input: any) => {
+            console.log('Rendering input:', input.id, 'with value:', values[input.id]); // ログを追加
+            return (
+              <FormInput
+                key={input.id}
+                element={{
+                  ...input,
+                  value: values[input.id],
+                  onChange: handleChange,
+                  setField: setFieldValue
+                }}
+              />
+            );
+          })}
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={handleReset}>
